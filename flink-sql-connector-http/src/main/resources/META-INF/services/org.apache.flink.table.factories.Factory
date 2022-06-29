@@ -1,0 +1,2 @@
+com.github.yck.connector.http.source.HttpRestfulDynamicTableFactory
+com.github.yck.connector.http.source.json.HttpRestfulJsonFormatFactory
