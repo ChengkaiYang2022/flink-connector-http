@@ -16,12 +16,15 @@
  * limitations under the License.
  */
 
-package com.github.yck.connector.http.source.json;
+package com.github.yck.connector.http.format;
 
+import com.github.yck.connector.http.format.json.DeserializationRestfulSchema;
+import com.github.yck.connector.http.format.json.HttpRestfulJsonSerializer;
 import org.apache.flink.configuration.ConfigOption;
 import org.apache.flink.configuration.ConfigOptions;
 import org.apache.flink.configuration.ReadableConfig;
 import org.apache.flink.table.connector.format.DecodingFormat;
+import org.apache.flink.table.connector.format.EncodingFormat;
 import org.apache.flink.table.factories.DeserializationFormatFactory;
 import org.apache.flink.table.factories.DynamicTableFactory;
 import org.apache.flink.table.factories.FactoryUtil;
@@ -39,7 +42,7 @@ import java.util.Set;
  * <p>Because this factory implements {@link DeserializationFormatFactory}, it could also be used
  * for other connectors that support deserialization formats such as the Kafka connector.
  */
-public final class HttpRestfulJsonFormatFactory implements DeserializationRestfulFormatFactory {
+public final class HttpRestfulJsonFormatFactory implements DeserializationRestfulFormatFactory, SerializationRestfulFormatFactory {
 
     // define all options statically
     public static final ConfigOption<String> COLUMN_DELIMITER =
@@ -65,6 +68,19 @@ public final class HttpRestfulJsonFormatFactory implements DeserializationRestfu
     @Override
     public DecodingFormat<DeserializationRestfulSchema> createDecodingFormat(
             DynamicTableFactory.Context context, ReadableConfig formatOptions) {
+        // either implement your custom validation logic here ...
+        // or use the provided helper method
+        FactoryUtil.validateFactoryOptions(this, formatOptions);
+
+        // get the validated options
+        final String columnDelimiter = formatOptions.get(COLUMN_DELIMITER);
+
+        // create and return the format
+        return new HttpRestfulJsonFormat(columnDelimiter);
+    }
+
+    @Override
+    public EncodingFormat<HttpRestfulJsonSerializer> createEncodingFormat(DynamicTableFactory.Context context, ReadableConfig formatOptions) {
         // either implement your custom validation logic here ...
         // or use the provided helper method
         FactoryUtil.validateFactoryOptions(this, formatOptions);

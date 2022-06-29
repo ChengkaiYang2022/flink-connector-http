@@ -1,6 +1,6 @@
 package com.github.yck.connector.http.source;
 
-import com.github.yck.connector.http.source.json.DeserializationRestfulSchema;
+import com.github.yck.connector.http.format.json.DeserializationRestfulSchema;
 import com.github.yck.connector.http.source.util.ResultGenerator;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;

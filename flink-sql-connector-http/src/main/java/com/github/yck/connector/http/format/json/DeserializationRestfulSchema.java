@@ -1,4 +1,4 @@
-package com.github.yck.connector.http.source.json;
+package com.github.yck.connector.http.format.json;
 
 import org.apache.flink.api.common.serialization.DeserializationSchema;
 import org.apache.flink.table.data.RowData;

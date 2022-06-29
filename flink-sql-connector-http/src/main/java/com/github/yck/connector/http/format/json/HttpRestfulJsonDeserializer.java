@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package com.github.yck.connector.http.source.json;
+package com.github.yck.connector.http.format.json;
 
 import org.apache.flink.api.common.typeinfo.TypeInformation;
 import org.apache.flink.shaded.jackson2.com.fasterxml.jackson.databind.ObjectMapper;
