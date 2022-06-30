@@ -1,9 +1,9 @@
 package com.github.yck.connector.http;
 
+import com.github.yck.connector.http.format.json.HttpRestfulJsonDeserializer;
 import com.github.yck.connector.http.sink.HttpRestfulDynamicTableSink;
 import com.github.yck.connector.http.source.HttpRestfulDynamicTableSource;
 import com.github.yck.connector.http.format.DeserializationRestfulFormatFactory;
-import com.github.yck.connector.http.format.json.DeserializationRestfulSchema;
 import com.github.yck.connector.http.format.json.HttpRestfulJsonSerializer;
 import com.github.yck.connector.http.format.SerializationRestfulFormatFactory;
 import org.apache.flink.configuration.ConfigOption;
@@ -48,7 +48,7 @@ public class HttpRestfulDynamicTableFactory implements DynamicTableSinkFactory,D
                 FactoryUtil.createTableFactoryHelper(this, context);
 
         // discover a suitable decoding format
-        final DecodingFormat<DeserializationRestfulSchema> decodingFormat =
+        final DecodingFormat<HttpRestfulJsonDeserializer> decodingFormat =
                 helper.discoverDecodingFormat(
                         DeserializationRestfulFormatFactory.class, FactoryUtil.FORMAT);
 

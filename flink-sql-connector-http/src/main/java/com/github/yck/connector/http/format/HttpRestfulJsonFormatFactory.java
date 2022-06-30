@@ -18,8 +18,8 @@
 
 package com.github.yck.connector.http.format;
 
-import com.github.yck.connector.http.format.json.DeserializationRestfulSchema;
 import com.github.yck.connector.http.format.json.HttpRestfulJsonSerializer;
+import com.github.yck.connector.http.format.json.HttpRestfulJsonDeserializer;
 import org.apache.flink.configuration.ConfigOption;
 import org.apache.flink.configuration.ConfigOptions;
 import org.apache.flink.configuration.ReadableConfig;
@@ -66,7 +66,7 @@ public final class HttpRestfulJsonFormatFactory implements DeserializationRestfu
     }
 
     @Override
-    public DecodingFormat<DeserializationRestfulSchema> createDecodingFormat(
+    public DecodingFormat<HttpRestfulJsonDeserializer> createDecodingFormat(
             DynamicTableFactory.Context context, ReadableConfig formatOptions) {
         // either implement your custom validation logic here ...
         // or use the provided helper method

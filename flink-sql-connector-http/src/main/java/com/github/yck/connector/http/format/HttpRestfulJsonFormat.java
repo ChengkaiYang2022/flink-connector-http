@@ -18,7 +18,6 @@
 
 package com.github.yck.connector.http.format;
 
-import com.github.yck.connector.http.format.json.DeserializationRestfulSchema;
 import com.github.yck.connector.http.format.json.HttpRestfulJsonDeserializer;
 import com.github.yck.connector.http.format.json.HttpRestfulJsonSerializer;
 import org.apache.flink.api.common.serialization.DeserializationSchema;
@@ -40,7 +39,7 @@ import java.util.List;
  * The {@link HttpRestfulJsonFormat} is a decoding format that uses a {@link DeserializationSchema}
  * during runtime. It supports emitting {@code INSERT} and {@code DELETE} changes.
  */
-public final class HttpRestfulJsonFormat implements DecodingFormat<DeserializationRestfulSchema>, EncodingFormat<HttpRestfulJsonSerializer> {
+public final class HttpRestfulJsonFormat implements DecodingFormat<HttpRestfulJsonDeserializer>, EncodingFormat<HttpRestfulJsonSerializer> {
 
     private final String columnDelimiter;
 
@@ -49,7 +48,7 @@ public final class HttpRestfulJsonFormat implements DecodingFormat<Deserializati
     }
 
     @Override
-    public DeserializationRestfulSchema createRuntimeDecoder(
+    public HttpRestfulJsonDeserializer createRuntimeDecoder(
             DynamicTableSource.Context context, DataType producedDataType) {
         // create type information for the DeserializationSchema
         final TypeInformation<RowData> producedTypeInfo =
