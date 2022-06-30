@@ -1,6 +1,6 @@
 package com.github.yck.connector.http.source;
 
-import com.github.yck.connector.http.source.json.DeserializationRestfulSchema;
+import com.github.yck.connector.http.format.json.HttpRestfulJsonDeserializer;
 import com.github.yck.connector.http.source.util.ResultGenerator;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
@@ -26,7 +26,7 @@ public class HttpRestfulSourceFunction extends RichSourceFunction<RowData>
     private String path;
     private Integer port;
     private final byte byteDelimiter;
-    private final DeserializationRestfulSchema deserializer;
+    private final HttpRestfulJsonDeserializer deserializer;
 
     private volatile boolean isRunning = true;
     @Override
@@ -35,7 +35,7 @@ public class HttpRestfulSourceFunction extends RichSourceFunction<RowData>
                 RuntimeContextInitializationContextAdapters.deserializationAdapter(
                         getRuntimeContext()));
     }
-    public HttpRestfulSourceFunction(  String path, Integer port, byte byteDelimiter, DeserializationRestfulSchema deserializer) {
+    public HttpRestfulSourceFunction(  String path, Integer port, byte byteDelimiter, HttpRestfulJsonDeserializer deserializer) {
         this.path = path;
         this.port = port;
         this.byteDelimiter = byteDelimiter;

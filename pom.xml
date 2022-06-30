@@ -39,7 +39,12 @@
             <version>${flink.version}</version>
             <scope>provided</scope>
         </dependency>
-
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpclient</artifactId>
+            <version>4.5.13</version>
+            <!--			<scope>test</scope>-->
+        </dependency>
         <!-- https://mvnrepository.com/artifact/org.apache.flink/flink-table-common -->
         <!-- https://mvnrepository.com/artifact/org.apache.flink/flink-table-planner -->
         <dependency>

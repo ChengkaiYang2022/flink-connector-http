@@ -16,8 +16,9 @@
  * limitations under the License.
  */
 
-package com.github.yck.connector.http.source.json;
+package com.github.yck.connector.http.format.json;
 
+import org.apache.flink.api.common.serialization.DeserializationSchema;
 import org.apache.flink.api.common.typeinfo.TypeInformation;
 import org.apache.flink.shaded.jackson2.com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.flink.table.connector.RuntimeConverter.Context;
@@ -41,12 +42,12 @@ import java.util.Map;
  *
  * <p>The final conversion step converts those into internal data structures.
  */
-public final class HttpRestfulJsonDeserializer implements DeserializationRestfulSchema {
+public final class HttpRestfulJsonDeserializer implements DeserializationSchema<RowData> {
 
     private final List<LogicalType> parsingTypes;
     private final DataStructureConverter converter;
     private final TypeInformation<RowData> producedTypeInfo;
-    private final String columnDelimiter;
+    private final String headers;
     /** Object mapper for parsing the JSON. */
     private final ObjectMapper objectMapper = new ObjectMapper();
 
@@ -54,11 +55,11 @@ public final class HttpRestfulJsonDeserializer implements DeserializationRestful
             List<LogicalType> parsingTypes,
             DataStructureConverter converter,
             TypeInformation<RowData> producedTypeInfo,
-            String columnDelimiter) {
+            String headers) {
         this.parsingTypes = parsingTypes;
         this.converter = converter;
         this.producedTypeInfo = producedTypeInfo;
-        this.columnDelimiter = columnDelimiter;
+        this.headers = headers;
     }
 
     @Override
@@ -79,10 +80,7 @@ public final class HttpRestfulJsonDeserializer implements DeserializationRestful
      * @param out
      * @throws IOException
      */
-    @Override
-    public void deserialize(byte[] message, Collector<RowData> out) throws IOException {
-        DeserializationRestfulSchema.super.deserialize(message, out);
-    }
+
 
     /**
      * Decode simple json (not a json list) and return row data.
@@ -120,14 +118,14 @@ public final class HttpRestfulJsonDeserializer implements DeserializationRestful
         return false;
     }
 
-    @Override
+//    @Override
     public RowData deserializeSingleJsonStringWithRowKind(byte[] message, RowKind rowKind) throws IOException {
         RowData rowData = this.deserialize(message);
         rowData.setRowKind(rowKind);
         return rowData;
     }
 
-    @Override
+//    @Override
     public List<RowData> deserializeJsonListWithRowKind(byte[] message, RowKind rowKind) throws IOException {
         // parse the columns including a changelog flag
         List<Map<String,Object>> jsonList = new ArrayList<>();

@@ -1,6 +1,6 @@
 package com.github.yck.connector.http.source;
 
-import com.github.yck.connector.http.source.json.DeserializationRestfulSchema;
+import com.github.yck.connector.http.format.json.HttpRestfulJsonDeserializer;
 import org.apache.flink.streaming.api.functions.source.SourceFunction;
 import org.apache.flink.table.connector.ChangelogMode;
 import org.apache.flink.table.connector.format.DecodingFormat;
@@ -14,10 +14,10 @@ public class HttpRestfulDynamicTableSource implements ScanTableSource {
     private String path;
     private Integer port;
     private final byte byteDelimiter;
-    private final DecodingFormat<DeserializationRestfulSchema> decodingFormat;
+    private final DecodingFormat<HttpRestfulJsonDeserializer> decodingFormat;
     private final DataType producedDataType;
 
-    public HttpRestfulDynamicTableSource(String path, int port, byte byteDelimiter, DecodingFormat<DeserializationRestfulSchema> decodingFormat, DataType producedDataType) {
+    public HttpRestfulDynamicTableSource(String path, int port, byte byteDelimiter, DecodingFormat<HttpRestfulJsonDeserializer> decodingFormat, DataType producedDataType) {
         this.path = path;
         this.port = port;
         this.byteDelimiter = byteDelimiter;
@@ -34,7 +34,7 @@ public class HttpRestfulDynamicTableSource implements ScanTableSource {
     public ScanRuntimeProvider getScanRuntimeProvider(ScanContext runtimeProviderContext) {
         // create runtime classes that are shipped to the cluster
 
-        final DeserializationRestfulSchema deserializer =
+        final HttpRestfulJsonDeserializer deserializer =
                 decodingFormat.createRuntimeDecoder(runtimeProviderContext, producedDataType);
 
         final SourceFunction<RowData> sourceFunction =
