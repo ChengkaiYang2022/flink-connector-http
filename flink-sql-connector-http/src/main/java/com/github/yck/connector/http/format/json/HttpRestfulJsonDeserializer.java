@@ -47,7 +47,7 @@ public final class HttpRestfulJsonDeserializer implements DeserializationSchema<
     private final List<LogicalType> parsingTypes;
     private final DataStructureConverter converter;
     private final TypeInformation<RowData> producedTypeInfo;
-    private final String columnDelimiter;
+    private final String headers;
     /** Object mapper for parsing the JSON. */
     private final ObjectMapper objectMapper = new ObjectMapper();
 
@@ -55,11 +55,11 @@ public final class HttpRestfulJsonDeserializer implements DeserializationSchema<
             List<LogicalType> parsingTypes,
             DataStructureConverter converter,
             TypeInformation<RowData> producedTypeInfo,
-            String columnDelimiter) {
+            String headers) {
         this.parsingTypes = parsingTypes;
         this.converter = converter;
         this.producedTypeInfo = producedTypeInfo;
-        this.columnDelimiter = columnDelimiter;
+        this.headers = headers;
     }
 
     @Override

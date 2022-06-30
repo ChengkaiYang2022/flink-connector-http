@@ -1,5 +1,6 @@
 package com.github.yck.connector.http.sink;
 import com.github.yck.connector.http.format.json.HttpRestfulJsonSerializer;
+import org.apache.flink.shaded.jackson2.com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.flink.streaming.api.functions.sink.RichSinkFunction;
 import org.apache.flink.table.data.RowData;
 
@@ -21,6 +22,7 @@ public class HttpRestfulSinkFunction extends RichSinkFunction<RowData> {
     private Map<String, String> headers;
     private CloseableHttpClient client;
     private final HttpRestfulJsonSerializer serializer;
+    private final ObjectMapper objectMapper = new ObjectMapper();
 
     public HttpRestfulSinkFunction(String remoteUrl, Map<String, String> headers, HttpRestfulJsonSerializer serializer) {
         this.remoteUrl = remoteUrl;
@@ -43,22 +45,20 @@ public class HttpRestfulSinkFunction extends RichSinkFunction<RowData> {
 
     @Override
     public void invoke(RowData value, Context context) throws Exception {
-        HttpPost httpPost = new HttpPost(remoteUrl);
-        HttpDelete httpDelete = new HttpDelete(remoteUrl);
-//        httpDelete.();
-        // TODO add a serialize convert RowData to a request with POST/DELETE method.
-
-        serializer.serializeToJson(value);
-
-        StringEntity entity = new StringEntity("{\"code\":200,\"message\":\"success\"}", "UTF-8");
-        httpPost.setEntity(entity);
-        httpPost.setHeader("Accept", "application/json");
-        httpPost.setHeader("Content-type", "application/json; charset=UTF-8");
-
         CloseableHttpResponse response = null;
-        response = client.execute(httpPost);
-        String responseBody = EntityUtils.toString(response.getEntity());
-        System.out.println(responseBody);
+
+        switch (value.getRowKind()){
+            case INSERT:
+                response = client.execute(serializer.serializeToHTTPPost(value, remoteUrl, headers));
+                String responseBody = EntityUtils.toString(response.getEntity());
+                System.out.println(responseBody);
+                break;
+            case DELETE:
+                // TODO Add DELETE METHOD
+                break;
+            default:break;
+        }
+
     }
 
     @Override

@@ -5,5 +5,5 @@ import org.apache.flink.annotation.PublicEvolving;
 import org.apache.flink.table.factories.EncodingFormatFactory;
 
 @PublicEvolving
-public interface SerializationRestfulFormatFactory extends EncodingFormatFactory<HttpRestfulJsonSerializer> {
+public interface EncodingHttpRestfulFormatFactory extends EncodingFormatFactory<HttpRestfulJsonSerializer> {
 }

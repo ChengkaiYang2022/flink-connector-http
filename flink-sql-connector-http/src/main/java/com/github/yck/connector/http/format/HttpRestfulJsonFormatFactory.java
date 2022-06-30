@@ -42,7 +42,7 @@ import java.util.Set;
  * <p>Because this factory implements {@link DeserializationFormatFactory}, it could also be used
  * for other connectors that support deserialization formats such as the Kafka connector.
  */
-public final class HttpRestfulJsonFormatFactory implements DeserializationRestfulFormatFactory, SerializationRestfulFormatFactory {
+public final class HttpRestfulJsonFormatFactory implements DecodingHttpRestfulFormatFactory, EncodingHttpRestfulFormatFactory {
 
     // define all options statically
     public static final ConfigOption<String> COLUMN_DELIMITER =
@@ -73,10 +73,10 @@ public final class HttpRestfulJsonFormatFactory implements DeserializationRestfu
         FactoryUtil.validateFactoryOptions(this, formatOptions);
 
         // get the validated options
-        final String columnDelimiter = formatOptions.get(COLUMN_DELIMITER);
+        final String headers = formatOptions.get(COLUMN_DELIMITER);
 
         // create and return the format
-        return new HttpRestfulJsonFormat(columnDelimiter);
+        return new HttpRestfulJsonFormat(headers);
     }
 
     @Override
@@ -86,9 +86,9 @@ public final class HttpRestfulJsonFormatFactory implements DeserializationRestfu
         FactoryUtil.validateFactoryOptions(this, formatOptions);
 
         // get the validated options
-        final String columnDelimiter = formatOptions.get(COLUMN_DELIMITER);
+        final String headers = formatOptions.get(COLUMN_DELIMITER);
 
         // create and return the format
-        return new HttpRestfulJsonFormat(columnDelimiter);
+        return new HttpRestfulJsonFormat(headers);
     }
 }

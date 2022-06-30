@@ -1,5 +1,7 @@
 package com.github.yck.connector.http.sink;
 
+import org.apache.flink.shaded.jackson2.com.fasterxml.jackson.databind.ObjectMapper;
+import org.apache.flink.shaded.jackson2.com.fasterxml.jackson.databind.node.ObjectNode;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
@@ -17,12 +19,20 @@ import static org.junit.Assert.*;
 public class HttpRestfulSinkFunctionTest {
     private CloseableHttpClient client;
     private String url = "http://localhost:8080/flink/table1";
+    private final ObjectMapper objectMapper = new ObjectMapper();
+
     @Before
     public void prepare(){
         client = HttpClients.createDefault();
 
     }
-
+    @Test
+    public void test2(){
+        ObjectNode user = objectMapper.createObjectNode();
+        user.put("name","yck");
+        user.put("age",28);
+        System.out.println(user.toString());
+    }
     @Test
     public void testPost(){
         try {

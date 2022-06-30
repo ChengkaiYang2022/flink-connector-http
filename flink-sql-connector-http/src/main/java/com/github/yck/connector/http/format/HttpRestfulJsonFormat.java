@@ -41,10 +41,10 @@ import java.util.List;
  */
 public final class HttpRestfulJsonFormat implements DecodingFormat<HttpRestfulJsonDeserializer>, EncodingFormat<HttpRestfulJsonSerializer> {
 
-    private final String columnDelimiter;
+    private final String headers;
 
-    public HttpRestfulJsonFormat(String columnDelimiter) {
-        this.columnDelimiter = columnDelimiter;
+    public HttpRestfulJsonFormat(String headers) {
+        this.headers = headers;
     }
 
     @Override
@@ -64,7 +64,7 @@ public final class HttpRestfulJsonFormat implements DecodingFormat<HttpRestfulJs
 
         // create runtime class
         return new HttpRestfulJsonDeserializer(
-                parsingTypes, converter, producedTypeInfo, columnDelimiter);
+                parsingTypes, converter, producedTypeInfo, headers);
     }
 
     @Override
@@ -92,6 +92,6 @@ public final class HttpRestfulJsonFormat implements DecodingFormat<HttpRestfulJs
 
         // create runtime class
         return new HttpRestfulJsonSerializer(
-                parsingTypes, converter, producedTypeInfo);
+                parsingTypes, converter, producedTypeInfo,headers);
     }
 }

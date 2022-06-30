@@ -3,9 +3,9 @@ package com.github.yck.connector.http;
 import com.github.yck.connector.http.format.json.HttpRestfulJsonDeserializer;
 import com.github.yck.connector.http.sink.HttpRestfulDynamicTableSink;
 import com.github.yck.connector.http.source.HttpRestfulDynamicTableSource;
-import com.github.yck.connector.http.format.DeserializationRestfulFormatFactory;
+import com.github.yck.connector.http.format.DecodingHttpRestfulFormatFactory;
 import com.github.yck.connector.http.format.json.HttpRestfulJsonSerializer;
-import com.github.yck.connector.http.format.SerializationRestfulFormatFactory;
+import com.github.yck.connector.http.format.EncodingHttpRestfulFormatFactory;
 import org.apache.flink.configuration.ConfigOption;
 import org.apache.flink.configuration.ConfigOptions;
 import org.apache.flink.configuration.ReadableConfig;
@@ -50,7 +50,7 @@ public class HttpRestfulDynamicTableFactory implements DynamicTableSinkFactory,D
         // discover a suitable decoding format
         final DecodingFormat<HttpRestfulJsonDeserializer> decodingFormat =
                 helper.discoverDecodingFormat(
-                        DeserializationRestfulFormatFactory.class, FactoryUtil.FORMAT);
+                        DecodingHttpRestfulFormatFactory.class, FactoryUtil.FORMAT);
 
         // validate all options
         helper.validate();
@@ -102,7 +102,7 @@ public class HttpRestfulDynamicTableFactory implements DynamicTableSinkFactory,D
         // discover a suitable decoding format
         final EncodingFormat<HttpRestfulJsonSerializer> encodingFormat =
                 helper.discoverEncodingFormat(
-                        SerializationRestfulFormatFactory.class, FactoryUtil.FORMAT);
+                        EncodingHttpRestfulFormatFactory.class, FactoryUtil.FORMAT);
 
         // validate all options
         helper.validate();

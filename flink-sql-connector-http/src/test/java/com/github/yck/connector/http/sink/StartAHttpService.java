@@ -49,6 +49,7 @@ class HttpHandlerITCase implements HttpHandler {
             try {
                 InputStream is = he.getRequestBody();
                 System.out.println(IOUtils.toString(is));
+                System.out.println(he.getRequestMethod());
                 OutputStream os = he.getResponseBody();
                 he.sendResponseHeaders(HttpURLConnection.HTTP_OK, RESPONSE_STRING.length());
                 os.write(IOUtils.toByteArray(new StringReader(RESPONSE_STRING), "UTF-8"));
